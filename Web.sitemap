@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<siteMap xmlns="http://schemas.microsoft.com/AspNet/SiteMap-File-1.0" >
+    <siteMapNode url="~/Default.aspx" title="Home"  description="Home">
+      <siteMapNode url="" title="Sales"  description="Sales Department" >
+        <siteMapNode url="~/quote_dashboard.aspx" title="Quote Management"  description="" />
+      </siteMapNode>  
+          
+      <siteMapNode url="" title="Production"  description="Production Department" roles="xx" >
+        <siteMapNode url="~/setup_project_contact.aspx" title="Production Management"  description="" />
+      </siteMapNode>  
+      <siteMapNode url="" title="Projects"  description="Projects Department" >
+        <siteMapNode url="~/setup_quote_workflow.aspx" title="Project Management"  description="" />
+      </siteMapNode>
+          
+    </siteMapNode>
+</siteMap>
