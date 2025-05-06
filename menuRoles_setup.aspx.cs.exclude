@@ -1,0 +1,76 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+public partial class menuRoles_setup : System.Web.UI.Page
+{
+	IntranetDataDataContext db = new IntranetDataDataContext();
+
+	protected void Page_Load(object sender, EventArgs e)
+	{
+
+	}
+
+	protected void roles_selecting(object sender, LinqDataSourceSelectEventArgs e)
+	{
+
+		var roles = from r in db.aspnet_Roles
+					orderby r.RoleName
+					select r;
+
+		e.Result = roles;
+	}
+
+
+	protected void menuRoles_OnSelecting(object sender, LinqDataSourceSelectEventArgs e)
+	{
+		if (Page.Request.QueryString["RoleId"] != null)
+		{
+			var menuroles = from r in db.menuRoles
+							orderby r.academy_menu.parent_order
+							where r.roleid == Guid.Parse(Page.Request.QueryString["RoleId"])
+							select r;
+
+			e.Result = menuroles;
+		}
+		else
+		{
+			var menuroles = from r in db.menuRoles
+							orderby r.academy_menu.parent_order
+							where r.roleid == new Guid()
+							select r;
+
+			e.Result = menuroles;
+		}
+	}
+
+	protected void submenuRoles_OnSelecting(object sender, LinqDataSourceSelectEventArgs e)
+	{
+		if (Page.Request.QueryString["RoleId"] != null)
+		{
+			var menuids = (from m in db.menuRoles
+						   where (m.roleid == Guid.Parse(Page.Request.QueryString["RoleId"])) && (m.assigned)
+						   select m.menuid).ToList();
+
+			var menuroles = from r in db.submenuRoles
+							orderby r.academy_sub_menu.academy_menu.parent_order, r.academy_sub_menu.child_menu_order
+							where (r.roleid == Guid.Parse(Page.Request.QueryString["RoleId"])) && menuids.Contains(r.academy_sub_menu.id)
+							select r;
+
+			e.Result = menuroles;
+		}
+		else
+		{
+			var menuroles = from r in db.submenuRoles
+							orderby r.academy_sub_menu.academy_menu.parent_order, r.academy_sub_menu.child_menu_order
+							where r.roleid == new Guid()
+							select r;
+
+			e.Result = menuroles;
+		}
+
+	}
+}

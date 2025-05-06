@@ -1,0 +1,303 @@
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MainMasterPage.master" AutoEventWireup="true" CodeFile="menu_roles_setup.aspx.cs" Inherits="menu_roles_setup" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="MenuContentPlaceHolder" Runat="Server">
+
+
+
+
+
+
+
+    <%--<%
+		if (Page.Request.QueryString["RoleId"] != null)
+		{
+			var roleId = Guid.Parse(Page.Request.QueryString["RoleId"]);
+			var itemsToAdd = (from m in db.academy_menus select m.id).ToList();
+			var menuids = (from m in db.menuRoles where roleId == m.roleid select m.menuid).ToList();
+
+			itemsToAdd.RemoveAll(en => menuids.Contains(en));
+			foreach (var item in itemsToAdd)
+			{
+				var entry = new menuRole();
+				entry.id = Guid.NewGuid();
+				entry.menuid = item;
+				entry.roleid = roleId;
+				db.menuRoles.InsertOnSubmit(entry);
+			}
+			db.SubmitChanges();
+
+			itemsToAdd = (from m in db.academy_sub_menus select m.child_id).ToList();
+			menuids = (from m in db.submenuRoles where roleId == m.roleid select m.submenuid).ToList();
+
+			itemsToAdd.RemoveAll(en => menuids.Contains(en));
+			foreach (var item in itemsToAdd)
+			{
+				var entry = new submenuRole();
+				entry.id = Guid.NewGuid();
+				entry.submenuid = item;
+				entry.roleid = roleId;
+				db.submenuRoles.InsertOnSubmit(entry);
+			}
+			db.SubmitChanges();
+            menuRolesListView.DataBind();
+            submenuListView.DataBind();
+		}
+
+        %>--%>
+
+   <%-- <br />
+
+    <form runat="server">
+   
+    <asp:DropDownList ID="ddlRoles" runat="server" AutoPostBack ="true" OnSelectedIndexChanged ="OnSelectedIndexChanged"
+                                                        DataSourceID = "RolesLinqDataSource" 
+                                                      DataValueField = "id"  
+                                                      DataTextField="RoleName"
+                                                      SelectedValue='<%# Bind("RoleId") %>'
+                                                      AppendDataBoundItems="true"    
+                                                     >
+                        <asp:ListItem Text="--- Select Menu ---" Value=""></asp:ListItem>
+</asp:DropDownList>
+</form>
+    <form id="form1" runat="server">--%>
+<%--        <div>
+            <label for="rolesSelect">Choose a role to edit:</label>
+            <select id="rolesSelect" onchange="loadRole()">
+                <%
+                    string roleId = "";
+
+                    if (Page.Request.QueryString["RoleId"] != null)
+                        roleId = Page.Request.QueryString["RoleId"];
+
+                    foreach (var role in db.aspnet_Roles)
+                    {
+                    %>
+                <option value="<%= role.RoleId %>" <%= (roleId == role.RoleId.ToString())?"selected":""  %>><%= role.RoleName %></option>
+                <%
+                    }
+                    %>
+            </select>
+        </div>--%>
+
+<div>
+     <asp:ListView ID="menuRolesListView" runat="server" DataKeyNames="id" 
+            DataSourceID="menuRolesDataSource"
+             >
+        <ItemTemplate>
+            <tr >
+                
+                
+                <td>
+                     <asp:Label ID="reminderLabel" runat="server" Text='<%# Eval("academy_menu.parent_name") %>' />
+                </td>
+                <td>
+<%--                    <asp:Label ID="reminder_orderLabel" runat="server"  Text='<%# Eval("assigned") %>' />--%>
+                    <asp:CheckBox ID="CheckBox2" runat="server" Checked='<%# Bind("assigned") %>'  />
+                </td>
+                
+                <td>  
+                    <asp:Button ID="EditButton" runat="server" CommandName="Edit" Text="Edit" />
+                </td>
+                
+            </tr>
+        </ItemTemplate>
+       
+        <EmptyDataTemplate>
+            <table runat="server" >
+                <tr>
+                    <td>
+                        No data was returned.</td>
+                </tr>
+            </table>
+        </EmptyDataTemplate>
+        
+        <LayoutTemplate>
+            <table runat="server">
+                <tr runat="server">
+                    <td runat="server">
+                        <table ID="itemPlaceholderContainer" runat="server" border="1" >
+                            <tr runat="server" class="tableheaderrow">
+                               
+                                
+                                <th runat="server"> main Menu</th>
+                                <th runat="server"> Asssigned</th>
+                                     <th id="Th4" runat="server">
+                                </th>
+                                
+                            </tr>
+                            <tr ID="itemPlaceholder" runat="server">
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+               
+            </table>
+        </LayoutTemplate>
+        <EditItemTemplate>
+
+            <table1 id="table1">
+            <tr class="editrow">
+                
+                <td>
+                    <%--<asp:requiredfieldvalidator id="required1" runat="server" ControlToValidate="reminderTextBox" ErrorMessage="Reminder cannot be blank."></asp:requiredfieldvalidator> Reminder <span style="font-size:12px;">(Reminder)</span>--%>
+                     <asp:Label ID="reminderTextBox" runat="server"   Text='<%# Bind("academy_menu.parent_name") %>' />
+                       
+                </td>
+                <td>
+<%--                    <asp:TextBox ID="assignedTextBox" runat="server" Text='<%# Bind("assigned") %>' />--%>
+                    <asp:CheckBox ID="CheckBox2" runat="server" Checked='<%# Bind("assigned") %>'  />
+                </td>
+                
+                
+                <td>
+                    <asp:Button ID="UpdateButton" runat="server" CommandName="Update" 
+                        Text="Update" />
+                   
+                </td>
+                
+            </tr>
+        </table1>
+        <asp:ValidationSummary ID="ValidationSummary1"
+            
+            DisplayMode="List"
+            EnableClientScript="true"
+            runat="server"/>
+            
+        </EditItemTemplate>
+       
+    </asp:ListView>
+
+   <br />
+   <br />
+            <asp:LinqDataSource ID="menuRolesDataSource" runat="server" 
+        ContextTypeName="IntranetDataDataContext" 
+        TableName="menuRoles"
+        OnSelecting="menuRoles_OnSelecting" EnableDelete="False" 
+        EnableInsert="False" EnableUpdate="True"
+       >
+    </asp:LinqDataSource>
+   
+</div>
+ <br />
+        <div>
+     <asp:ListView ID="submenuListView" runat="server" DataKeyNames="id" 
+            DataSourceID="submenuRolesDataSource"
+             >
+        <ItemTemplate>
+            <tr >
+                <td>
+                     <asp:Label ID="Label1" runat="server" Text='<%# Eval("academy_sub_menu.academy_menu.parent_name") %>' />
+                </td>
+
+                
+                <td>
+                     <asp:Label ID="reminderLabel" runat="server" Text='<%# Eval("academy_sub_menu.child_name") %>' />
+                </td>
+                <td>
+<%--                    <asp:Label ID="reminder_orderLabel" runat="server"  Text='<%# Eval("assigned") %>' />--%>
+                    <asp:CheckBox ID="CheckBox2" runat="server" Checked='<%# Bind("assigned") %>'  />
+                </td>
+                
+                <td>  
+                    <asp:Button ID="EditButton" runat="server" CommandName="Edit" Text="Edit" />
+                </td>
+                
+            </tr>
+        </ItemTemplate>
+       
+        <EmptyDataTemplate>
+            <table runat="server" >
+                <tr>
+                    <td>
+                        No data was returned.</td>
+                </tr>
+            </table>
+        </EmptyDataTemplate>
+        
+        <LayoutTemplate>
+            <table runat="server">
+                <tr runat="server">
+                    <td runat="server">
+                        <table ID="itemPlaceholderContainer" runat="server" border="1" >
+                            <tr runat="server" class="tableheaderrow">
+                               <th runat="server">  Main Menu</th>
+                                
+                                <th runat="server">  SubMenu</th>
+                                <th runat="server"> Asssigned</th>
+                                     <th id="Th4" runat="server">
+                                </th>
+                                
+                            </tr>
+                            <tr ID="itemPlaceholder" runat="server">
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+               
+            </table>
+        </LayoutTemplate>
+        <EditItemTemplate>
+
+            <table1 id="table1">
+            <tr class="editrow">
+
+                <td>
+                    <%--<asp:requiredfieldvalidator id="required1" runat="server" ControlToValidate="reminderTextBox" ErrorMessage="Reminder cannot be blank."></asp:requiredfieldvalidator> Reminder <span style="font-size:12px;">(Reminder)</span>--%>
+                     <asp:Label ID="Label2" runat="server"   Text='<%# Bind("academy_sub_menu.academy_menu.parent_name") %>' />
+                       
+                </td>
+                
+                <td>
+                    <%--<asp:requiredfieldvalidator id="required1" runat="server" ControlToValidate="reminderTextBox" ErrorMessage="Reminder cannot be blank."></asp:requiredfieldvalidator> Reminder <span style="font-size:12px;">(Reminder)</span>--%>
+                     <asp:Label ID="reminderTextBox" runat="server"   Text='<%# Bind("academy_sub_menu.child_name") %>' />
+                       
+                </td>
+                <td>
+<%--                    <asp:TextBox ID="assignedTextBox" runat="server" Text='<%# Bind("assigned") %>' />--%>
+                    <asp:CheckBox ID="CheckBox2" runat="server" Checked='<%# Bind("assigned") %>'  />
+                </td>
+                
+                
+                <td>
+                    <asp:Button ID="UpdateButton" runat="server" CommandName="Update" 
+                        Text="Update" />
+                   
+                </td>
+                
+            </tr>
+        </table1>
+        <asp:ValidationSummary ID="ValidationSummary1"
+            
+            DisplayMode="List"
+            EnableClientScript="true"
+            runat="server"/>
+            
+        </EditItemTemplate>
+       
+    </asp:ListView>
+
+   <br />
+   <br />
+            <asp:LinqDataSource ID="submenuRolesDataSource" runat="server" 
+        ContextTypeName="IntranetDataDataContext" 
+        TableName="submenuRoles"
+        OnSelecting="submenuRoles_OnSelecting" EnableDelete="False" 
+        EnableInsert="False" EnableUpdate="True"
+       >
+    </asp:LinqDataSource>
+   
+<asp:LinqDataSource ID="RolesLinqDataSource" runat="server"
+    ContextTypeName="IntranetDataDataContext" 
+         TableName="aspnet_Roles" OnSelecting="roles_selecting"> 
+</asp:LinqDataSource>
+</div>
+ 
+
+<script>
+        function loadRole()
+        {
+            location.href = "Default7.aspx?RoleId=" + $("#rolesSelect").val();
+        }
+</script>
+</asp:Content>
+
