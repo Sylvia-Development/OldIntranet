@@ -1,0 +1,17 @@
+﻿<%@ Master Language="C#" MasterPageFile="~/MainMasterPage.master" AutoEventWireup="true" CodeFile="SetupLeftNavMasterPage.master.cs" Inherits="LeftNavMasterPage" %>
+
+<asp:Content ID="LeftNavContent" ContentPlaceHolderID="MenuContentPlaceHolder" Runat="Server">
+
+
+
+
+
+    <asp:ContentPlaceHolder id="MainContentPlaceHolder" runat="server">
+    </asp:ContentPlaceHolder>
+
+
+
+
+
+</asp:Content>
+
