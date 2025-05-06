@@ -1,0 +1,27 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="AcademyMasterPage.master.cs" Inherits="AcademyMasterPage" %>
+<!DOCTYPE html>
+<html>
+    <head>
+    </head>
+    <body>
+        <form runat="server">
+            <asp:LoginView>
+                <LoggedInTemplate>
+                    Logged in
+
+                </LoggedInTemplate>
+                <AnonymousTemplate>
+                        
+    <div align="center">
+    <br /><br />
+        <asp:Login CssClass="logincontrol" ID="Login2"  runat="server" >
+        </asp:Login>
+        
+     </div>  
+     <br /> 
+
+                </AnonymousTemplate>
+            </asp:LoginView>
+        </form>
+    </body>
+    </html>

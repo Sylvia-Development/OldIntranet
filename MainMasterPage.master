@@ -1,0 +1,1703 @@
+﻿<%@ Master Language="C#"  AutoEventWireup="false" CodeFile="MainMasterPage.master.cs" Inherits="MainMasterPage" %>
+
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+   
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<META HTTP-EQUIV="REFRESH" CONTENT="900;URL=#">
+    
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/js/all.min.js" integrity="sha512-2bMhOkE/ACz21dJT8zBOMgMecNxx0d37NND803ExktKiKdSzdwn+L7i9fdccw/3V06gM/DBWKbYmQvKMdAA9Nw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+       
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+    <link href="Scripts/theme/jquery-ui.css" rel="Stylesheet" type="text/css" />
+
+<%--        <link href="Scripts/page.css" rel="stylesheet" type="text/css" />--%>
+
+
+    <link href="flexnav.css" media="screen, projection" rel="stylesheet" type="text/css"/>
+    <script src="Scripts/jquery.flexnav.js" type="text/javascript"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/lodash/lodash.min.js" integrity="sha256-qXBd/EfAdjOA2FGrGAG+b3YBn2tn5A6bhz+LSgYD96k=" crossorigin="anonymous"></script>    
+  
+    <script src="Scripts/jquery.datetimepicker.full.js"></script>
+
+    <link href="shadowbox.css" rel="stylesheet" type="text/css" />
+    <script src="Scripts/shadowbox.js" type="text/javascript"></script>
+
+
+    <script src="http://malsup.github.io/jquery.blockUI.js"></script>
+
+
+    <script type="text/javascript" src="Scripts/ScrollableTablePlugin_1.0_min.js"></script>
+    
+
+
+<title>blu-line intranet</title>
+ 
+
+
+    <script type="text/javascript">
+      /*  (function() {
+    var config = {
+        kitId: 'qyb8ood'
+    };
+    var d = false;
+    var tk = document.createElement('script');
+    tk.src = 'Scripts/' + config.kitId + '.js';
+    tk.type = 'text/javascript';
+    tk.async = 'true';
+    tk.onload = tk.onreadystatechange = function() {
+      var rs = this.readyState;
+      if (d || rs && rs != 'complete' && rs != 'loaded') return;
+      d = true;
+      try { Typekit.load(config); } catch (e) {}
+    };
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(tk, s);
+  })();*/
+
+        function PlaySound_BadScan() {
+            //Wrapper to call sound function.
+
+            PlaySoundNow(this, '/sounds/scanbad.wav');
+        }
+
+        function PlaySound_GoodScan() {
+            //Wrapper to call sound function.
+
+            PlaySoundNow(this, '/sounds/scangood.wav');
+        }
+
+
+        function PlaySoundNow(el, soundfile) {
+            if (el.mp3) {
+                if (el.mp3.paused) el.mp3.play();
+                else el.mp3.pause();
+            } else {
+                el.mp3 = new Audio(soundfile);
+                el.mp3.play();
+            }
+        }
+
+
+
+
+    
+cookieName="page_scroll"
+expdays=365
+
+// An adaptation of Dorcht's cookie functions.
+
+function setCookie(name, value, expires, path, domain, secure){
+    if (!expires){expires = new Date()}
+    document.cookie = name + "=" + escape(value) + 
+    ((expires == null) ? "" : "; expires=" + expires.toGMTString()) +
+    ((path == null) ? "" : "; path=" + path) +
+    ((domain == null) ? "" : "; domain=" + domain) +
+    ((secure == null) ? "" : "; secure")
+}
+
+function getCookie(name) {
+    var arg = name + "="
+    var alen = arg.length
+    var clen = document.cookie.length
+    var i = 0
+    while (i < clen) {
+        var j = i + alen
+        if (document.cookie.substring(i, j) == arg){
+            return getCookieVal(j)
+        }
+        i = document.cookie.indexOf(" ", i) + 1
+        if (i == 0) break
+    }
+    return null
+}
+
+function getCookieVal(offset){
+    var endstr = document.cookie.indexOf (";", offset)
+    if (endstr == -1)
+    endstr = document.cookie.length
+    return unescape(document.cookie.substring(offset, endstr))
+}
+
+function deleteCookie(name,path,domain){
+    document.cookie = name + "=" +
+    ((path == null) ? "" : "; path=" + path) +
+    ((domain == null) ? "" : "; domain=" + domain) +
+    "; expires=Thu, 01-Jan-00 00:00:01 GMT"
+}
+
+function saveScroll(){ // added function
+    var expdate = new Date ()
+    expdate.setTime (expdate.getTime() + (expdays*24*60*60*1000)); // expiry date
+
+    var x = (document.pageXOffset?document.pageXOffset:document.body.scrollLeft)
+    var y = (document.pageYOffset?document.pageYOffset:document.body.scrollTop)
+    Data=x + "_" + y
+    setCookie(cookieName,Data,expdate)
+}
+
+function loadScroll(){ // added function
+    inf=getCookie(cookieName)
+    if(!inf){return}
+    var ar = inf.split("_")
+    if(ar.length == 2){
+        window.scrollTo(parseInt(ar[0]), parseInt(ar[1]))
+    }
+    clearScroll();
+}
+
+function clearScroll(){
+    deleteCookie(cookieName,null,null);
+
+
+}
+
+
+
+
+        $(document).ready(function () {
+
+           toggle_visibility = function (id){
+                     var tempScrollTop = $(window).scrollTop();
+
+                    var e = $("#"+id);
+                    e.toggle();
+                    $(window).scrollTop(tempScrollTop);
+           }
+           
+           
+           
+            $('#txtSearch').autocomplete({
+
+                source: function (request, response) {
+                    $.ajax({
+                        url: "ClientSectionlist.asmx/FetchClientSectionList",
+                        data: "{ 'name': '" + request.term + "' }",
+                        dataType: "json",
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        dataFilter: function (data) { return data; },
+                        success: function (data) {
+                            //response(
+                            var results = $.map(data.d, function (item) {
+                                if (item.clientName != "")
+                                    return {
+
+                                        label: item.clientName + '-' + item.sectionName + '(' + item.brandName + ')',
+                                        sectionId: item.sectionId,
+                                        clientId: item.clientId,
+                                        clientName: item.clientName,
+                                        partnerName: '',
+                                        partnerId: ''
+                                    }
+                                else
+                                    if (item.partnerName != "")
+                                        return {
+                                            label: item.partnerName + " (Referral Partner)",
+                                            partnerName: item.partnerName,
+                                            partnerId: item.partnerId,
+                                            sectionId: '',
+                                            clientId: '',
+                                            clientName: ''
+                                        }
+                            });
+                            results = _.sortBy(results, (result) => result.label);
+                            //)
+                            response(results);
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            alert(errorThrown);
+                        }
+                    });
+                },
+                appendTo: "#results",
+                minLength: 1,
+                select: function (event, ui) {
+                    
+                    doSearch(ui.item.sectionId, ui.item.clientId, ui.item.clientName, ui.item.partnerName, ui.item.partnerId);
+                    
+                }
+               
+
+            });
+        });
+    
+        function doSearch(sectionId, clientId, clientName, partnerName, partnerId) {
+            if (partnerName == '') {
+                window.location.href = 'section_view.aspx?pClientName=' + clientName + '&pSectionId=' + sectionId + '&pClientId=' + clientId + '&pDepartmentId=' + $('.hiddenDeptId').val();
+            }
+            else {
+                window.location.href = 'partner_view.aspx?pPartnerId=' + partnerId ;
+            }
+        }
+
+		function Ascending_sort(a, b) {
+			return ($(b).text().toUpperCase()) <
+				($(a).text().toUpperCase()) ? 1 : -1;
+		}
+
+        Shadowbox.init({
+            handleOversize: "drag",
+            overlayOpacity: 0.8,
+            modal: true,
+            onOpen: onShOpen, 
+            onClose: onShClose
+
+        });
+
+        function onShOpen() { 
+        
+           document.body.style.overflow = "hidden"; 
+            return true; 
+        } 
+        function onShClose() { 
+            document.body.style.overflow = "auto"; 
+            return true; 
+        }
+
+       
+        function closeSB() {
+            $('#Shadowbox').close();
+            
+
+        }
+        $(function () {
+            $("#blocker").hide();
+        });
+        $(function () {
+            $("#maincontent").show();
+        });
+        jQuery(document).ready(function ($) {
+
+
+           $(".flexnav").flexNav();
+        //   /* $(".flexnav").flexNav({ 'animationSpeed': '250',
+        //                            'transitionOpacity': true
+                                    
+        //                            });*/
+
+   
+        });
+        
+
+        $(function () {
+            $("input[type=button]").button();
+            $("input[type=submit]").button();
+            $("input[type=checkbox]").checkboxradio();
+            $("input[type=radio]").checkboxradio();
+            $("input[type=Label]").accordion();
+            $("input[type=datepicker]").datepicker();
+           
+        });
+
+        
+
+        $(function () {
+            $("datepicker").datepicker({ dateFormat: 'D, d M, yy', showOtherMonths: true, selectOtherMonths: true });
+
+        });
+
+        
+        $(function () {
+
+            $(" #quote_status_table").addClass('ui-widget ui-corner-all');
+        })
+        
+
+        $(function() {
+            $("button").addClass('ui-corner-all ui-button ui-widget');
+        })
+
+        $(function () { 
+        $("tr").addClass('ui-corner-all ui-widget ui-helper-reset');	
+        })
+
+
+        $(function () {
+            $("td").addClass('ui-corner-all ui-widget ui-helper-reset');
+        })
+
+        $(function () {
+
+            $("input[type=text]").addClass('ui-corner-all ui-widget-content');
+        })
+
+        $(function () {
+
+            $("input[type=TextBox]").addClass('ui-corner-all ui-widget-content');
+        })
+
+        $(function () {
+            $("input[type=password]").addClass('ui-corner-all');
+        })
+
+        $(function () {
+            
+            $("label").addClass('ui-corner-all ui-widget-content');
+        })
+
+        $(function () {
+
+            $("Label").addClass('ui-corner-all ui-widget-content');
+        })
+
+        $(function () {
+
+            $("tooltip").addClass('ui-corner-all ui-widget');
+        })
+
+        $(function () {
+
+            $("title").addClass('ui-corner-all ui-widget');
+        })
+
+        $(function () {
+            $("th").addClass('ui-widget-header ui-corner-all ui-accordion-header-active');
+        })
+
+        $(function () {
+           $("textarea").addClass('class="ui-corner-all ui-widget ui-widget-active');
+        })
+
+        $(function () {
+            $("checkbox").addClass( 'ui-corner-all ui-checkboxradio-icon ui-checkboxradio-checked');
+        })
+
+        $(function () {
+
+            $(".themeContent tr").addClass('ui-corner-all ui-widget-content');
+        })
+
+        $(function () {
+
+            $("form").addClass('ui-corner-all ui-widget');
+        })
+
+        $(function () {
+
+            $("#menu").addClass('ui-menu ui-menu-item');
+        })
+
+        $(function () {
+            $("table").addClass('tableSpacing paddedTable');
+        })
+
+        $(function () {
+            $("table td a").addClass('ui-button ui-corner-all ui-widget');
+        })
+
+        $(function () {
+            var themeSpan = document.getElementById("themeSpan");
+            var ctl00_ctl00_themeChooser = document.getElementById("ctl00_ctl00_themeChooser");
+
+            if (ctl00_ctl00_themeChooser != null) {
+                ctl00_ctl00_themeChooser.parentElement.removeChild(ctl00_ctl00_themeChooser);
+                themeSpan.appendChild(ctl00_ctl00_themeChooser);
+            }
+            else {
+                var ctl00_themeChooser = document.getElementById("ctl00_themeChooser");
+                ctl00_themeChooser.parentElement.removeChild(ctl00_themeChooser);
+                themeSpan.appendChild(ctl00_themeChooser);
+            }
+        })
+        
+
+	</script>
+    <style>
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+ 
+    vertical-align: baseline;
+    margin: 0;
+    padding: 0;
+}
+
+
+        .ui-tabs-panel ui-corner-bottom ui-widget-content{
+            background-color:white !important;
+            position:static;
+        }
+
+        #header {
+    background-color:white;
+    width: 100%;
+    height: 60px; 
+}
+
+        .titleDiv #toolbar {    
+        float:right;
+        margin-right: 78px;
+    }
+
+        .titleDiv {
+    height: 40px;
+    margin-bottom:50px;
+}
+
+ .titleDiv #toolbar svg{
+                                    position:static; 
+                                   
+                                }
+
+ .titleDiv #toolbar a{
+                                    position:static; 
+                                   
+                                }
+
+  table td .ui-button{
+    position:static;
+}
+  div .advancedRadioWidth {
+      position:static;
+  }  
+
+  @media screen and (min-width: 800px) {
+        #maincontent {
+            padding-top: 20px;
+            margin-left: 20px;
+        }
+}
+
+ 
+input[type="password"] {
+    
+    padding: 6px;
+    font-size: 1.1em;
+    background: white !important;
+    border:none;
+    width:90%;
+}
+
+input[id=ctl00_LoginView2_Login2_UserName]
+{
+    
+   border:none;
+    background:white !important;
+      width:90%;
+      font-size:1.1em;
+      padding:6px;
+     
+}
+
+input[name=clientInfoSection$FormView1$LinkButton2] {
+    
+    margin: 0 auto;
+    border: none;
+    background: white;
+}
+
+
+label[for=ctl00_LoginView2_Login2_RememberMe] {
+    color: #000000;
+    border: none;
+    display: block;
+    border-radius: 8px;
+    margin: 0 auto;
+    padding:6px;
+    float:revert;
+}
+
+label[for=ctl00_LoginView2_Login2_UserName] {
+    color: #000000;
+/*    border-radius: 8px;
+*/    background: white;
+    border: 0px;
+    display: block;
+    margin: 0 auto;
+}
+
+.logincontrol{
+    border: 2px solid black;
+}
+
+label[for=ctl00_LoginView2_Login2_Password] {
+    color: #000000;
+/*    border-radius: 8px;
+*/    background: white;
+    border: 0px;
+    display: block;
+    margin: 0 auto;
+    
+}
+
+
+table th {
+    font-size:1.1em;
+    padding: 10px;
+   
+}
+
+.greenrow {
+    background: #92c296; /*#508f55;*/
+}
+
+.redrow {
+    background: #cc6969; /*#BB3F3F;*/
+
+}
+
+.amberrow {
+    background: #e1af74;
+}
+
+
+a ul li ul a{
+    float:left;
+    margin:0px;
+}
+
+       ul li > ul {
+
+                position: absolute;
+                top: 0;
+                left: -200px;
+
+        }
+
+
+        .paddedTable td{
+    padding:10px 5px !important;
+}
+
+ .ui-tabs ui-corner-all ui-widget ui-widget-content{
+    position: static;
+}
+
+        table td a{
+
+        }
+
+        #popup
+{
+   background-color: white;
+    text-align: justify;
+    line-height: 1.5em;
+    margin: 0 0 0 0px;
+    padding-right: 1px;
+    padding-left: 27px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-left: 0px solid #cccccc;
+    color: #000000; 
+     
+}
+
+
+select
+{
+    padding:7px !important;
+    font-size:0.9em !important;
+}
+
+
+input[type="text"] {
+    padding: 7px;
+    font-size: 0.9em;
+}
+
+input[type="radio"] {
+    position:static;
+}
+
+input[type="button"] {
+    position:static;
+}
+
+input[type="checkbox"] {
+    position:static;
+}
+
+input[type="radio"] {
+    position:static;
+}
+
+
+.themeContent tr{
+ border:0px !important;
+}
+
+
+ .tableSpacing {
+    border-collapse: separate;
+    border-spacing: 3px 10px;
+}
+
+        table#client_info_table {
+    position:absolute;
+    z-index:9999999;
+    background-color: white !important;
+    color: black;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+        #maincontent {
+    padding-top: 20px;
+    margin:30px 50px;
+    display: none;
+ 
+}
+
+        body {
+    background: white; 
+    width: 100%;
+    color: black;
+    font-family: "dejarip-1", "dejarip-2", "Helvetica Neue", Arial, clean, sans-serif;
+    font-size: 1.1em;
+    overflow: auto;
+}
+
+#one_column h2 {
+    
+    background-color: white;
+    border-top: 1px solid #9fbb88;
+    border-left: 1px solid #9fbb88;
+    border-bottom: 1px solid #5d7744;
+    border-right: 1px solid #5d7744;
+    color: #FFFFFF;
+    padding: 5px;
+    font-weight: normal;
+    font-size: 200%;
+    border-color: #C0C0C0 #808080 #808080 #C0C0C0;
+}
+
+ ::-webkit-scrollbar {
+	width: 15px;
+	height: 15px;
+}
+    @media all and (min-width: 800px) {
+
+    
+
+}
+    ::-webkit-scrollbar-corner {
+	background-image: url(Images/scrollbar/FguQn.png);
+	background-repeat: no-repeat;
+}
+::-webkit-resizer {
+	background-image: url(Images/scrollbar/aKKDY.png);
+	background-repeat: no-repeat;
+	background-position: bottom right;
+}
+    @media screen and (max-width: 600px) {
+
+    #menu a:hover {
+        font-weight: bold;
+        text-decoration: underline;
+    }
+}
+
+    @media only screen and (max-device-width: 1024px) {
+        #sb-body-inner {
+            overflow: auto !important;
+            -webkit-overflow-scrolling: touch !important;
+        }
+    }
+
+    ::-webkit-scrollbar-button:start {
+        display: none;
+    }
+
+    ::-webkit-scrollbar-button:end {
+        display: block;
+    }
+
+    ::-webkit-scrollbar:horizontal {
+        -webkit-border-image: url(Images/scollbar/NQ2K6.png) 0 2 0 2;
+        border-color: transparent;
+        border-width: 0 2px;
+        background-image: url(Images/scollbar/8xDbU.png);
+        background-repeat: repeat-x;
+    }
+
+        ::-webkit-scrollbar:horizontal:corner-present {
+            border-right-width: 0;
+        }
+
+    ::-webkit-scrollbar-thumb:horizontal {
+        -webkit-border-image: url(Images/scollbar/YQRD7.png) 0 15 0 15;
+        border-color: transparent;
+        border-width: 0 15px;
+        min-width: 20px;
+    }
+
+    ::-webkit-scrollbar-track-piece:horizontal:start {
+        margin-left: 6px;
+    }
+
+    ::-webkit-scrollbar-track-piece:horizontal:end {
+        margin-right: -6px;
+    }
+
+    ::-webkit-scrollbar-track-piece:horizontal:decrement {
+        -webkit-border-image: url(Images/scollbar/p9yMk.png) 0 15 0 15;
+        border-color: transparent;
+        border-width: 0 0 0 15px;
+    }
+
+    ::-webkit-scrollbar-track-piece:horizontal:increment {
+        -webkit-border-image: url(Images/scollbar/p9yMk.png) 0 15 0 15;
+        border-color: transparent;
+        border-width: 0 15px 0 0;
+    }
+
+    ::-webkit-scrollbar-button:horizontal {
+        width: 21px;
+        -webkit-border-image: url(Images/scollbar/NQ2K6.png) 0 2 0 2;
+        border-color: transparent;
+        border-width: 0 2px;
+    }
+
+        ::-webkit-scrollbar-button:horizontal:decrement {
+            background-image: url(Images/scollbar/dGOKL.png), url(Images/scollbar/8xDbU.png);
+            background-repeat: no-repeat, repeat-x;
+            background-position: 7px 4px, 0 0;
+        }
+
+            ::-webkit-scrollbar-button:horizontal:decrement:active {
+                -webkit-border-image: url(Images/scollbar/gT5BM.png) 0 2 0 2;
+                background-image: url(Images/scollbar/dGOKL.png), url(Images/scollbar/RDf8L.png);
+            }
+
+        ::-webkit-scrollbar-button:horizontal:increment {
+            background-image: url(Images/scollbar/5rJr5.png), url(Images/scollbar/8xDbU.png);
+            background-repeat: no-repeat, repeat-x;
+            width: 16px;
+            border-left-width: 0;
+            background-position: 3px 4px, 0 0;
+        }
+
+            ::-webkit-scrollbar-button:horizontal:increment:active {
+                -webkit-border-image: url(Images/scollbar/gT5BM.png) 0 2 0 2;
+                background-image: url(Images/scollbar/5rJr5.png), url(Images/scollbar/RDf8L.png);
+            }
+
+        ::-webkit-scrollbar-button:horizontal:end:increment:corner-present {
+            border-right-width: 0;
+            width: 15px;
+        }
+
+    ::-webkit-scrollbar:vertical {
+        -webkit-border-image: url(Images/scollbar/NdaTT.png) 2 0 2 0;
+        border-color: transparent;
+        border-width: 2px 0;
+        background-image: url(Images/scollbar/p7j9a.png);
+        background-repeat: repeat-y;
+    }
+
+        ::-webkit-scrollbar:vertical:corner-present {
+            border-bottom-width: 0;
+        }
+
+    ::-webkit-scrollbar-thumb:vertical {
+        -webkit-border-image: url(Images/scollbar/rPEsZ.png) 15 0 15 0;
+        border-color: transparent;
+        border-width: 15px 0;
+        min-height: 20px;
+    }
+
+    ::-webkit-scrollbar-track-piece:vertical:start {
+        margin-top: 6px;
+    }
+
+    ::-webkit-scrollbar-track-piece:vertical:end {
+        margin-bottom: -6px;
+    }
+
+    ::-webkit-scrollbar-track-piece:vertical:decrement {
+        -webkit-border-image: url(Images/scollbar/Rb6ru.png) 15 0 15 0;
+        border-color: transparent;
+        border-width: 15px 0 0 0;
+    }
+
+    ::-webkit-scrollbar-track-piece:vertical:increment {
+        -webkit-border-image: url(Images/scollbar/Rb6ru.png) 15 0 15 0;
+        border-color: transparent;
+        border-width: 0 0 15px 0;
+    }
+
+    ::-webkit-scrollbar-button:vertical {
+        height: 21px;
+        -webkit-border-image: url(Images/scollbar/NdaTT.png) 2 0 2 0;
+        border-color: transparent;
+        border-width: 2px 0;
+    }
+
+        ::-webkit-scrollbar-button:vertical:decrement {
+            background-image: url(Images/scollbar/KQvwk.png), url(Images/scollbar/p7j9a.png);
+            background-repeat: no-repeat, repeat-y;
+            background-position: 4px 7px, 0 0;
+        }
+
+            ::-webkit-scrollbar-button:vertical:decrement:active {
+                -webkit-border-image: url(Images/scollbar/uW3TL.png) 2 0 2 0;
+                background-image: url(Images/scollbar/KQvwk.png), url(Images/scollbar/puDsH.png);
+            }
+
+        ::-webkit-scrollbar-button:vertical:increment {
+            background-image: url(Images/scollbar/UjkVR.png), url(Images/scollbar/p7j9a.png);
+            background-repeat: no-repeat, repeat-y;
+            height: 16px;
+            border-top-width: 0;
+            background-position: 4px 5px, 0 0;
+        }
+
+            ::-webkit-scrollbar-button:vertical:increment:active {
+                -webkit-border-image: url(Images/scollbar/uW3TL.png) 2 0 2 0;
+                background-image: url(Images/scollbar/UjkVR.png), url(Images/scollbar/puDsH.png);
+            }
+
+        ::-webkit-scrollbar-button:vertical:end:increment:corner-present {
+            border-bottom-width: 0;
+            height: 15px;
+        }
+
+    ::-webkit-scrollbar:disabled {
+        background: red;
+        -webkit-border-image: none;
+        display: none;
+    }
+    </style>
+
+
+
+   <style type="text/css">
+       .lblStdSize{ 
+
+           width: 200px;
+
+       }
+
+</style>
+ 
+
+</head>
+
+<body onload="loadScroll()" >
+    <form id="form2" runat="server">
+    <asp:ScriptManager ID="ToolkitScriptManager1"  runat="server">
+     <Services>
+    <asp:ServiceReference
+       path="~/ClientSectionlist.asmx" />
+  </Services>
+    </asp:ScriptManager>
+
+    
+    
+      <div id="header" style="margin-bottom:5px;" >
+	       <a href="Default.aspx"> <img src="Images/logo.png" /> </a> 
+          
+          <span style="float: right; margin: 7px 0px 15px 15px;">
+      
+              <a href="default5.aspx"> <img   src="Images/graduate.png" /> </a>
+          </span>
+            
+       </div> 
+        
+       
+    <hr style="border-top: 2px solid black; margin-top:10px;" />    
+        
+    <asp:LoginView ID="LoginView2" runat="server">
+    <LoggedInTemplate>
+        <%         
+            String deptId = "1";
+            String userName = "";
+            String SCuserName = ""; // site coordinator name
+
+            if (Context.User.IsInRole("Design Consultant") && !Context.User.IsInRole("Customer Experience Manager"))
+            {
+                deptId = "0";
+                userName = Context.User.Identity.Name;
+            }
+            else if (Context.User.IsInRole("Customer Experience Manager"))
+            {
+                deptId = "6";
+
+            }
+            else if ( Context.User.IsInRole("Systems Integration") )
+            {
+                deptId = "1";
+
+            }
+            else if (Context.User.IsInRole("Site Coordinator") && !Context.User.IsInRole("Projects Director") )
+            {
+                deptId = "2";
+                SCuserName = Context.User.Identity.Name;
+            }
+            else if (Context.User.IsInRole("Installer") && (!Context.User.IsInRole("Technical Services Manager") && !Context.User.IsInRole("Technical Services Technician1") && !Context.User.IsInRole("Technical Services Technician2")&& !Context.User.IsInRole("Technical Services Technician3")&& !Context.User.IsInRole("Technical Services Technician4") ))
+            {
+                deptId = "3";
+
+            }
+            else if (Context.User.IsInRole("Service Call Agent") )
+            {
+                deptId = "4";
+            }
+            else if (Context.User.IsInRole("Processing Assistant") )
+            {
+                deptId = "5";
+            }
+            else if (Context.User.IsInRole("Projects Director"))
+            {
+                deptId = "7";
+            }
+            else if (Context.User.IsInRole("Technical Services Manager"))
+            {
+                deptId = "8";
+            }
+            else if (Context.User.IsInRole("Finance Director"))
+            {
+                deptId = "9";
+            }
+            else if (Context.User.IsInRole("Finance Admin Administrator"))
+            {
+                deptId = "10";
+            }
+            else if (Context.User.IsInRole("Finance Admin Manager"))
+            {
+                deptId = "11";
+            }
+            else if (Context.User.IsInRole("Technical Administrator"))
+            {
+                deptId = "12";
+            }
+            else if (Context.User.IsInRole("Production Team Coordinator") || Context.User.IsInRole("Assembly Captain")|| Context.User.IsInRole("Assembly Team"))
+            {
+                deptId = "13";
+            }
+            else if (Context.User.IsInRole("Finishes Coordinator"))
+            {
+                deptId = "14";
+            }
+            else if (Context.User.IsInRole("Design Administrator"))
+            {
+                deptId = "15";
+            }
+            else if (Context.User.IsInRole("Technical Services Technician1"))
+            {
+                deptId = "16"; //Spare
+
+            }
+            else if (Context.User.IsInRole("Technical Services Technician2"))
+            {
+                deptId = "17";//Des
+
+            }
+            else if (Context.User.IsInRole("Technical Services Technician3"))
+            {
+                deptId = "18";//spare
+
+            }
+            else if (Context.User.IsInRole("Technical Services Technician4"))
+            {
+                deptId = "19";//spare
+
+            }
+            else if (Context.User.IsInRole("Technical Plan Generation Head"))
+            {
+                deptId = "20";//Jose
+
+            }
+            else if (Context.User.IsInRole("Operations Manager"))
+            {
+                deptId = "21";//Michelle
+
+            }
+            else if (Context.User.IsInRole("Procurement Coordinator"))
+            {
+                deptId = "22";//Twilla
+
+            }
+            else { deptId = "1"; }
+
+
+            /*Assembly Captain
+             Assembly Team
+             Dispatch Transport Manager
+             Finishes Captain
+             Finishes Team
+             Machining Captain
+             Machining Team*/
+
+        %> 
+       
+ 
+  <div id="menu">      
+                   
+        <div class="menu-button">MENU</div>
+        <nav>
+            <ul class="flexnav" data-breakpoint="800">  
+	               
+	         <% 
+	          String[] userRoles = Roles.GetRolesForUser();   
+	          int roleCount = userRoles.GetLength(0);
+	             if (roleCount > 0)
+                 
+                     
+             { %>
+	                 
+	              
+	                 
+	                 
+                     <li><a href="#">SALES</a> 
+                        <ul >
+                      <%if( Context.User.IsInRole("Director")
+                         || Context.User.IsInRole("Design Consultant")
+                         || Context.User.IsInRole("Design Administrator")
+                         || Context.User.IsInRole("Systems Integration")
+                         || Context.User.IsInRole("Technical Services Technician3")){ %>  
+                     
+	                     <li> <a href="client_info_popup.aspx?pClientId=-1&pPartnerId=-1" rel="shadowbox;height=650;width=750" >new client</a></li> 
+	                 
+	                  <% }  %>
+                            
+                      
+                       
+                     <li> <a href="referral_partner_info.aspx?pPartnerId=-2" rel="shadowbox;height=500;width=700">new referral partner</a></li>
+	                 
+                       
+
+                      <%  if( Context.User.IsInRole("Director")
+                           || Context.User.IsInRole("Design Consultant")
+                           || Context.User.IsInRole("Design Administrator")
+                           || Context.User.IsInRole("Systems Integration")){ %>   
+	                 
+	                    <li> <a href="management_dashboard.aspx?pDepartmentId=0&pSectionFilter=maincrm">crm</a> </li> 
+	                
+	                  <% }  %>
+
+                             <%  if( Context.User.IsInRole("Twelve")){ %>   
+	                 
+	                    <li> <a href="management_dashboard.aspx?pDepartmentId=0&pSectionFilter=maincrm&pUserName=ashley">ashley crm</a> </li> 
+                        <li> <a href="management_dashboard.aspx?pDepartmentId=0&pSectionFilter=maincrm&pUserName=ezio">ezio crm</a> </li> 
+	                
+	                  <% }  %>
+                             <%  if( Context.User.IsInRole("OCD")){ %>   
+	                 
+	                    <li> <a href="management_dashboard.aspx?pDepartmentId=0&pSectionFilter=maincrm&pUserName=craig">craig crm</a> </li> 
+                        <li> <a href="management_dashboard.aspx?pDepartmentId=0&pSectionFilter=maincrm&pUserName=des">des crm</a> </li> 
+	                
+	                  <% }  %>
+                            
+
+                              <%  if( Context.User.IsInRole("Director") 
+                                     || Context.User.IsInRole("Customer Experience Manager")
+                                     || Context.User.IsInRole("Design Administrator")
+                                     || Context.User.IsInRole("Systems Integration")){
+                                 
+                                 %> 
+	                 
+	                        <li> <a href="time_management_data.aspx?pDepartmentId=0">capture time</a></li> 
+	                 
+	                     <% } %>
+
+
+
+                        <%  if( Context.User.IsInRole("Director")){ %>   
+	                 
+	                <li> <a href="design_management.aspx">management</a> </li> 
+                    <li> <a href="design_management.aspx">cem management</a> 
+                        <ul>
+                            <li> <a href="reminders_dashboard.aspx?pDepartmentId=6">cem reminders</a> </li> 
+                            <li> <a href="section_view.aspx?pClientName=Showroom%20CEM&pSectionId=1637&pClientId=1408&pDepartmentId=6">showroom tasks</a> </li> 
+
+
+                        </ul>
+
+                    </li> 
+	                
+	                  <% }  %>
+                      <%  if( Context.User.IsInRole("Director")
+                           || Context.User.IsInRole("Design Consultant")
+                           || Context.User.IsInRole("Design Administrator")
+                           || Context.User.IsInRole("Systems Integration")){ %>   
+	                 
+	                    <li> <a href="management_dashboard.aspx?pDepartmentId=0&pSectionFilter=marketing">marketing leads</a> </li> 
+	                
+	                  <% }  %>
+                      <%  if( Context.User.IsInRole("Director")
+                           || Context.User.IsInRole("Design Consultant")
+                           || Context.User.IsInRole("Design Administrator")
+                           || Context.User.IsInRole("Systems Integration")){ %>   
+	                 
+	                    <li> <a href="management_dashboard.aspx?pDepartmentId=0&pSectionFilter=completed">completed projects</a> </li> 
+	                
+	                  <% }  %>
+                      <% if( Context.User.IsInRole("Director")
+                          || Context.User.IsInRole("Design Consultant")
+                          || Context.User.IsInRole("Design Administrator")
+                          || Context.User.IsInRole("Systems Integration")){ %>     
+                  
+	                    <li>  <a href="archived_clients.aspx?pDepartmentId=0">archived clients</a></li> 
+	                 
+	                  <% } %>
+                     
+                         </ul>
+                         </li>
+                        
+                     <li><a href="#">PRODUCTION</a> 
+                        <ul>
+                            <%    if (Context.User.IsInRole("Director")
+                                    || Context.User.IsInRole("Projects Director")                                                                     
+                                    || Context.User.IsInRole("Production Controller")
+                                    || Context.User.IsInRole("Procurement Coordinator")
+                                    || Context.User.IsInRole("Processing Assistant")
+                                    || Context.User.IsInRole("Operations Manager")
+                                    || Context.User.IsInRole("Technical Services Manager")
+                                    || Context.User.IsInRole("Site Coordinator")
+                                    || Context.User.IsInRole("Systems Integration")
+                                    || Context.User.IsInRole("Technical Plan Generation Head"))
+                                 { %>  
+                            <li> <a href="urgent_orders.aspx">site orders</a> </li> 
+                           
+
+                            <%} %> 
+                            
+                            <%    if (Context.User.IsInRole("Director")
+                                    || Context.User.IsInRole("Projects Director")                                                                       
+                                    || Context.User.IsInRole("Production Controller")
+                                    || Context.User.IsInRole("Procurement Coordinator")
+                                    || Context.User.IsInRole("Processing Assistant")
+                                    || Context.User.IsInRole("Operations Manager")
+                                    || Context.User.IsInRole("Technical Services Manager")
+                                    || Context.User.IsInRole("Site Coordinator")
+                                    || Context.User.IsInRole("Systems Integration")
+                                    || Context.User.IsInRole("Technical Plan Generation Head"))
+                                 { %>  
+                            <li> <a href="production_management.aspx">production management</a> </li> 
+                            <li> <a href="production_complete.aspx">production complete</a> </li> 
+                            <li> <a href="logistics_control.aspx">logistics control</a> </li> 
+                            <li> <a href="logistics_control_completed.aspx">completed deliveries</a> </li> 
+                            <%} %>
+                             <%     if( Context.User.IsInRole("Director")
+                                     || Context.User.IsInRole("Projects Director")  
+                                 || Context.User.IsInRole("Production Controller")
+                                 || Context.User.IsInRole("Procurement Coordinator")
+                                 || Context.User.IsInRole("Technical Services Manager")
+                                 || Context.User.IsInRole("Operations Manager")
+                                 || Context.User.IsInRole("Site Coordinator")
+                                 || Context.User.IsInRole("Systems Integration")
+                                 || Context.User.IsInRole("Technical Plan Generation Head"))
+                                { %>  
+	                 
+	                            <li><a href="plan_generation.aspx">plan generation</a> </li> 
+                            <li><a href="plan_generation_complete.aspx">plan generation complete</a> </li> 
+	                 
+	                        <% } %>
+                            
+                            <%     if( Context.User.IsInRole("Director")
+                                    || Context.User.IsInRole("Projects Director")  
+                                 || Context.User.IsInRole("Production Controller")
+                                 || Context.User.IsInRole("Procurement Coordinator")
+                                 || Context.User.IsInRole("Technical Services Manager")
+                                 || Context.User.IsInRole("Operations Manager")
+                                || Context.User.IsInRole("Site Coordinator")
+                                 || Context.User.IsInRole("Systems Integration")
+                                 || Context.User.IsInRole("Technical Plan Generation Head"))
+                                { %>  
+	                 
+	                            <li><a href="orders_management.aspx">supplier orders</a> </li> 
+	                 
+	                        <% } %>
+                             
+	                 
+	                          
+                           
+                             <%     if( Context.User.IsInRole("Director")
+                                     || Context.User.IsInRole("Projects Director")                                                                
+                                    || Context.User.IsInRole("Processing Manager")
+                                    || Context.User.IsInRole("Procurement Coordinator")                                   
+                                    || Context.User.IsInRole("Production Controller")
+                                    || Context.User.IsInRole("Production Manager")
+                                    
+                                   ){ %> 
+	                                <li> <a href="technical_services.aspx?pDepartmentId=<%Response.Write(deptId);  %>">site order auth</a> </li>
+                            
+	                                
+	                 
+	                        <% }  %>
+                     
+                        </ul>
+                        </li>
+                     <li><a href="#">PROJECTS</a> 
+                        <ul>
+                            <%    if( Context.User.IsInRole("Director")
+                                    || Context.User.IsInRole("Projects Director") ) { %> 
+	                 
+	                        <li> <a href="sc_allocation_admin.aspx">SC Allocation</a> </li>
+                             <li> <a href="sc_allocation_admin_completed.aspx">SC Allocation - Completed</a> </li>
+                            
+                            
+                            
+                            <% } %>
+                            <%    if( Context.User.IsInRole("Director")
+                                    || Context.User.IsInRole("Projects Director")  
+                                   || Context.User.IsInRole("Project Manager")
+                                   || Context.User.IsInRole("Operations Manager")
+                                    || Context.User.IsInRole("Procurement Coordinator")
+                                      || Context.User.IsInRole("Technical Services Manager")
+                                      || Context.User.IsInRole("Production Manager")
+                                      || Context.User.IsInRole("Operations Manager")
+                                      || Context.User.IsInRole("Production Controller")
+                                      || Context.User.IsInRole("Site Coordinator")
+                                      || Context.User.IsInRole("Systems Integration")
+                                      || Context.User.IsInRole("Technical Plan Generation Head")) { %> 
+	                 
+	                        <li> <a href="management_dashboard.aspx?pDepartmentId=2&pSectionFilter=maincrm">projects crm</a> </li>
+                            <li> <a href="project_dates.aspx?pDepartmentId=2">project dates</a> </li>
+                            <li> <a href="installation_times.aspx?pDepartmentId=<%Response.Write(deptId);  %>">installation times</a> </li>
+                            
+                            
+                            <% } %>
+                            
+                            <%    if( Context.User.IsInRole("Director")
+                                    || Context.User.IsInRole("Projects Director")  
+                                   || Context.User.IsInRole("Project Manager")
+                                   || Context.User.IsInRole("Operations Manager")
+                                   || Context.User.IsInRole("Production Manager")
+                           
+                                   || Context.User.IsInRole("Production Controller")
+                                   || Context.User.IsInRole("Technical Services Manager")
+                                   || Context.User.IsInRole("Site Coordinator")
+                                   || Context.User.IsInRole("Systems Integration")
+                                   || Context.User.IsInRole("Technical Plan Generation Head")){ %> 
+	                 
+	                        <li> <a href="management_dashboard.aspx?pDepartmentId=4&pSectionFilter=maincrm">service call crm</a> </li> 
+	                 
+	                        <% } %>
+                             <%    if( Context.User.IsInRole("Director")
+                                     || Context.User.IsInRole("Projects Director")  
+                                   || Context.User.IsInRole("Project Manager")
+                                   || Context.User.IsInRole("Operations Manager")
+                                   || Context.User.IsInRole("Production Manager")
+                                   || Context.User.IsInRole("Finance Admin Manager")
+                                   || Context.User.IsInRole("Site Coordinator")
+                                   || Context.User.IsInRole("Systems Integration")
+                                   || Context.User.IsInRole("Technical Plan Generation Head")){ %> 
+	                 
+	                        <li> <a href="management_dashboard.aspx?pDepartmentId=10&pSectionFilter=maincrm">finance admin crm</a> </li> 
+	                 
+	                        <% } %>
+                            <%    if( Context.User.IsInRole("Director")
+                                    || Context.User.IsInRole("Projects Director")  
+                                   || Context.User.IsInRole("Project Manager")
+                                   || Context.User.IsInRole("Systems Integration")
+                                   || Context.User.IsInRole("Operations Manager")
+                                   || Context.User.IsInRole("Customer Experience Manager")
+                                   || Context.User.IsInRole("Technical Plan Generation Head"))
+                                  { %> 
+	                 
+	                        <li> <a href="reminders_dashboard.aspx?pDepartmentId=2">projects reminders </a> </li> 
+	                 
+	                        <% } %>
+                            <%    if( Context.User.IsInRole("Director")
+                                    || Context.User.IsInRole("Projects Director")  
+                                   || Context.User.IsInRole("Project Manager")
+                                   || Context.User.IsInRole("Technical Services Manager")
+                                   || Context.User.IsInRole("Operations Manager")
+                                   || Context.User.IsInRole("Production Manager")
+                                   || Context.User.IsInRole("Production Controller")
+                                      || Context.User.IsInRole("Finance Admin Manager")
+                                      || Context.User.IsInRole("Site Coordinator")
+                                      || Context.User.IsInRole("Systems Integration"))
+                                  { %> 
+	                 
+	                        <li> <a href="management_dashboard.aspx?pDepartmentId=2&pSectionFilter=completed">completed projects</a> </li> 
+	                 
+	                        <% } %>
+                            <%    if( Context.User.IsInRole("Director")
+                                    || Context.User.IsInRole("Projects Director")  
+                                   || Context.User.IsInRole("Project Manager")
+                                   || Context.User.IsInRole("Operations Manager")
+                                   || Context.User.IsInRole("Production Manager")
+                                   || Context.User.IsInRole("Production Controller")
+                                   || Context.User.IsInRole("Technical Services Manager")
+                                   || Context.User.IsInRole("Site Coordinator")
+                                   || Context.User.IsInRole("Systems Integration")
+                                   || Context.User.IsInRole("Technical Plan Generation Head")){ %> 
+	                 
+	                        <li> <a href="management_dashboard.aspx?pDepartmentId=4&pSectionFilter=completed">completed service's</a> </li> 
+	                 
+	                        <% } %>
+                     
+                         </ul>
+                         </li>
+
+                            <%if( Context.User.IsInRole("Director")
+                                    || Context.User.IsInRole("Projects Director")  
+                               || Context.User.IsInRole("Design Consultant")
+                               || Context.User.IsInRole("Project Manager")
+                               || Context.User.IsInRole("Operations Manager")
+                               || Context.User.IsInRole("Production Controller")
+                                  || Context.User.IsInRole("Technical Services Manager")
+                                  || Context.User.IsInRole("Technical Services Technician1")
+                                      || Context.User.IsInRole("Technical Services Technician2")
+                                          || Context.User.IsInRole("Technical Services Technician3")
+                                              || Context.User.IsInRole("Technical Services Technician4")
+                                  || Context.User.IsInRole("Finance Admin Manager")
+                                    || Context.User.IsInRole("Finance Admin Administrator")                                
+                                  || Context.User.IsInRole("Customer Experience Manager")
+                                  || Context.User.IsInRole("Design Administrator")
+                                  || Context.User.IsInRole("Site Coordinator")
+                                  || Context.User.IsInRole("Systems Integration")
+                                  || Context.User.IsInRole("Procurement Coordinator")
+                                  || Context.User.IsInRole("Technical Plan Generation Head")
+                                  || Context.User.IsInRole("Service Call Agent"))
+                              { %> 
+	                 
+	                        <li>  <a href="reminders_dashboard.aspx?pDepartmentId=<%Response.Write(deptId);  %>&pUserName=<%Response.Write(userName); %>&pSCUserName=<%Response.Write(SCuserName); %>">REMINDERS</a></li> 
+	                 
+	                         <% } %>
+
+                   
+
+
+                     <li><a href="#">UTILITIES</a> 
+                     <ul>
+                        <li><a href="notes.aspx">notes history</a> </li>
+                         <%  if (Context.User.IsInRole("Director")
+                                 || Context.User.IsInRole("Operations Manager")
+                                || Context.User.IsInRole("Projects Director")  )
+                             { %> 
+	                        <li><a href="asset_management.aspx">asset management</a> </li>
+                         <%} %>
+                         <%  if (Context.User.IsInRole("Director")
+                               || Context.User.IsInRole("Technical Services Manager")
+                               || Context.User.IsInRole("Operations Manager")
+                                 || Context.User.IsInRole("Finance Admin Manager")
+                                 || Context.User.IsInRole("Production Manager")
+                                 || Context.User.IsInRole("Procurement Coordinator")
+                                 || Context.User.IsInRole("Production Controller")
+                                 || Context.User.IsInRole("Projects Director")  
+                                 || Context.User.IsInRole("Site Coordinator")
+                                 || Context.User.IsInRole("Systems Integration")
+                                 || Context.User.IsInRole("Technical Plan Generation Head"))
+                             { %> 
+	                        <li><a href="my_assets.aspx?pUser=">my assets</a> </li>
+	                        <li> <a href="#">assets</a>
+                            <ul>
+                              <li> <a href="add_asset_items.aspx">add asset items</a></li>
+                              <li> <a href="asset_groups_classes.aspx">asset items</a></li> 
+                              <li> <a href="asset_lookup.aspx">asset lookup</a></li>
+                              <li> <a href="asset_items.aspx?pType=archived&pId=-1">archived assets</a></li>
+                            
+                            
+                            
+                            </ul>
+                            </li> 
+	                 
+	                     <% }
+                             else {%>
+                                 <li><a href="my_assets.aspx">my assets</a> </li> <% } %>
+
+                       
+
+
+
+                         
+
+
+
+
+
+                         
+                      
+	                        <li>  <a href="#">setup</a>
+                            <ul>
+                                <li> <a href="#">sms templates</a>
+                                    <ul>
+                                         <%   if( Context.User.IsInRole("Director")
+                                                 || Context.User.IsInRole("Projects Director")  
+                                               || Context.User.IsInRole("Design Consultant")
+                                               || Context.User.IsInRole("Customer Experience Manager") 
+                                               || Context.User.IsInRole("Design Administrator")
+                                               || Context.User.IsInRole("Systems Integration"))
+                                             { %>
+
+                                                    <li> <a href="setup_sms_templates.aspx?pDepartmentId=0">quotes</a></li>
+                                                    <li> <a href="setup_sms_templates.aspx?pDepartmentId=6">cem</a></li>
+                                                    <li> <a href="setup_sms_templates.aspx?pDepartmentId=15">sa</a></li>
+                                    
+                                    
+                                            <% }
+                                         %>
+                                 <%   if( Context.User.IsInRole("Director")
+                                         || Context.User.IsInRole("Projects Director")  
+                                         || Context.User.IsInRole("Systems Integration")
+                                         || Context.User.IsInRole("Site Coordinator")
+                                         || Context.User.IsInRole("Technical Plan Generation Head")){ %>
+                                    
+                                    
+	                                <li> <a href="setup_sms_templates.aspx?pDepartmentId=2">projects</a></li>
+                                 
+                                    <li> <a href="setup_sms_templates.aspx?pDepartmentId=4">service calls</a></li>
+
+                                 <%   } %>
+                                    </ul>
+                                </li>
+                                
+                               
+                                 <%   if (Context.User.IsInRole("Director")
+                                         || Context.User.IsInRole("Projects Director")  
+                                        || Context.User.IsInRole("Production Assistant")
+                                        || Context.User.IsInRole("Production Controller")
+                                         || Context.User.IsInRole("Customer Experience Manager") 
+                                        || Context.User.IsInRole("Production Manager")
+                                        || Context.User.IsInRole("Systems Integration")
+				                   || Context.User.IsInRole("Technical Services Manager")
+                                   || Context.User.IsInRole("Technical Plan Generation Head"))
+                                     { %>
+                                 <li> <a href="#">default reminders</a>
+                                    <ul>
+                                        <li> <a href="setup_default_reminders.aspx?pDepartmentId=0">quotes</a></li>
+                                        <li> <a href="setup_default_reminders.aspx?pDepartmentId=6">cem</a></li>
+                                        <li> <a href="setup_default_reminders.aspx?pDepartmentId=2">sc</a></li>
+                                        <li> <a href="setup_default_reminders.aspx?pDepartmentId=1">si</a></li>
+                                        
+                                       <li> <a href="setup_default_reminders_users.aspx?pDepartmentId=0">quotes-Users</a></li>
+                                        <li> <a href="setup_default_reminders_users.aspx?pDepartmentId=2">SC-Users</a></li>
+                                        <li> <a href="setup_default_reminders_users.aspx?pDepartmentId=1">SI-Users</a></li>
+
+
+                                        <li> <a href="setup_default_job_list_items.aspx">production</a></li>
+                                        <li> <a href="setup_default_reminders.aspx?pDepartmentId=8">technical services</a></li>
+                                        <li> <a href="setup_default_reminders.aspx?pDepartmentId=20">technical plan generation</a></li>
+                                       <%-- <li> <a href="setup_default_reminders.aspx?pDepartmentId=2">projects dept</a></li>--%>
+                                       
+                                        <li> <a href="setup_default_reminders.aspx?pDepartmentId=4">service calls</a></li>
+                                        <li> <a href="setup_default_reminders.aspx?pDepartmentId=7">projects director</a></li>
+
+                                    </ul>
+                                 </li>
+                                <%} %>
+                                <%   if (Context.User.IsInRole("Design Consultant"))
+                                         
+                                     { %>
+                                        
+                                        <a href="setup_default_reminders_users.aspx?pDepartmentId=0">Consultants-Users Reminders</a>
+                                 
+                                <%} %>
+                                <%   if (Context.User.IsInRole("Site Coordinator"))
+                                     { %>
+                                    
+                                         <a href="setup_default_reminders_users.aspx?pDepartmentId=2">SC-Users Reminders</a>
+                                        
+                                <%} %>
+                                 <%  if (Context.User.IsInRole("Director")
+                                        || Context.User.IsInRole("Technical Services Manager")
+                                        || Context.User.IsInRole("Production Manager")
+                                        || Context.User.IsInRole("Finance Admin Manager")
+                                        || Context.User.IsInRole("Projects Director")  
+                                        || Context.User.IsInRole("Systems Integration")
+                                        || Context.User.IsInRole("Technical Plan Generation Head"))
+                                     { %> 
+                                 <li> <a href="#">checklist items</a>
+                                     <ul>  
+                                         <li> <a href="#">checklist item categories</a>
+                                            <ul>
+                                                <li> <a href="setup_checklist_categories.aspx?pDepartmentId=3">plan gen</a></li>
+                                            </ul>
+                                        </li>
+                                     
+                                     
+                                        <li> <a href="#">default checklist items</a>
+                                            <ul>
+                                                <li> <a href="setup_default_checklist_items.aspx?pDepartmentId=3">plan gen</a></li>
+                                            </ul>
+                                        </li>
+                                   </ul>
+  
+                                     
+                                     
+                                 </li>
+                                
+                                <%   if (Context.User.IsInRole("Director")
+                                        || Context.User.IsInRole("Projects Director")  
+                                        || Context.User.IsInRole("Systems Integration")
+                                        || Context.User.IsInRole("Site Coordinator"))
+                                    { %>
+                                <li> <a href="setup_installation_teams.aspx">installation teams</a></li>
+                                
+
+
+                                <%}
+    }%>
+                                 <%   if (Context.User.IsInRole("Director"))
+                                     { %>
+
+                                <li> <a href="setup_production_defaults.aspx">production defaults</a></li>    
+                                <li> <a href="setup_status.aspx">statuses</a></li>
+                                    <li> <a href="setup_quote_info.aspx">quote info</a></li>
+	                                <li> <a href="setup_sms_messages.aspx">sms messages</a></li>
+                                    <li> <a href="setup_staff_details.aspx">staff details</a></li>
+                                    <li> <a href="setup_holidays.aspx">holidays</a></li>
+                                <%} %>
+
+                                 <%  if (Context.User.IsInRole("Director")
+                                        || Context.User.IsInRole("Technical Services Manager")
+                                        || Context.User.IsInRole("Operations Manager")
+                                        || Context.User.IsInRole("Production Manager")
+                                        || Context.User.IsInRole("Finance Admin Manager")
+                                      || Context.User.IsInRole("Projects Director")  
+                                        || Context.User.IsInRole("Systems Integration"))
+                                     { %> 
+                                    <li><a href="#">assets</a>
+                                    <ul>
+                                    <li> <a href="setup_asset_groups.aspx">asset groups</a></li>
+                                    <li> <a href="setup_asset_classes.aspx">asset classes</a></li>
+                                    
+                                    
+                                    
+                                    </ul></li>
+                                <%} %>
+                                 <%   if (Context.User.IsInRole("Director"))
+                                     { %>
+                                    <li><a href="#">client categories</a>
+                                    <ul>
+                                        <li> <a href="setup_client_categories.aspx">categories</a></li>
+                                        <li> <a href="setup_client_category_responses.aspx">responses</a></li>
+                                    
+                                    </ul>
+                                    
+                                    
+                                    </li>
+                                    </li>
+                            
+                                 <% } %>
+                            
+                            </ul>
+                            </li> 
+	                        <li>  <a href="profile_admin.aspx">change password</a> </li> 
+                            <li><asp:LoginView ID="LoginView1" runat="server">
+                                <LoggedInTemplate>
+                                         <asp:LoginStatus ID="LoginStatus" runat="server"  LogoutText="logout" />
+                                         
+                                </LoggedInTemplate>
+                                <AnonymousTemplate>
+                                    <p>Please login</p>
+                                </AnonymousTemplate>
+                                </asp:LoginView>
+                            </li>
+	                    
+                     
+                        
+                     
+<%--                     </li>--%>
+                     	                 
+	       <!--         <li> <a href="management_dashboard.aspx?pDepartmentId=3">Set Reminders</a> </li> -->
+	                 
+	                
+	               </ul>
+</li>
+</li>
+          
+        </ul>
+
+          
+</nav> 
+  <input type="text" style="display:none;" id="hiddenDeptId" class="hiddenDeptId" value="<%Response.Write(deptId);%>" />
+      
+        
+               <input id="txtSearch" type="text"  placeholder="search name..." class="ui-corner-all ui-widget-header" >
+              <%    if (Context.User.IsInRole("AdvancedSearch"))
+
+
+
+		  { %> 
+              <%--<asp:button  ID="btnGear" runat="server"  OnClick="<a   href="advanced_search_page.aspx" title="Go To Advanced Search Page"> 
+                       <%--<img src="Images/search.png"/>
+                </a>" />--%>
+      <button runat="server" onclick="location='advanced_search_page.aspx'" title="Advanced Search" class="ui-button ui-corner-all ui-widget fa-solid fa-magnifying-glass" >
+                                                            </button>
+      <span style="display:none;" id="themeSpan"></span>
+                 
+	        <%}
+                
+
+                %> 
+
+            
+                    <div id="results" style="background-color:white !important;"></div> 
+
+         
+  <hr style="border-top: 2px solid black;" /> 
+ 
+      
+   
+   <div id="blocker">
+       <div><i class="icon-spinner icon-spin icon-large"></i> Loading...</div>
+   </div>
+        <div id="maincontent" >
+             <asp:ContentPlaceHolder id="MenuContentPlaceHolder" runat="server">
+                    </asp:ContentPlaceHolder>
+        </div>
+        
+	         <% }
+             else
+             {%>
+                   <div align ="center">
+                     <br /><br />YOU HAVE NO ACCESS RIGHTS ASSIGNED TO YOUR PROFILE, PLEASE CONTACT THE SYSTEM ADMINISTRATOR   
+                    </div>
+             <%}%>
+	              </div>
+    </LoggedInTemplate>
+    
+    
+    <AnonymousTemplate>
+    
+    <div align="center">
+    <br /><br />
+        <asp:Login CssClass="logincontrol" ID="Login2"  runat="server" >
+        </asp:Login>
+        
+     </div>  
+     <br /> 
+    <div align="center">  
+    <a href="create_user.aspx">Register</a>
+    </div>
+    
+    </AnonymousTemplate>
+    
+ </asp:LoginView>
+    
+   
+     
+    
+    
+    </form>
+   
+   
+ 
+    </body>  
+</html>
+
+
+
+
+
+
+
+
+

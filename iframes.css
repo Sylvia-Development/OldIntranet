@@ -1,0 +1,257 @@
+/* CSS Document */
+
+#blocker
+{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: .5;
+    background-color:Black;
+    z-index: 1000;
+}
+    #blocker div
+    {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 5em;
+        height: 2em;
+        margin: -1em 0 0 -2.5em;
+        color: #fff;
+        font-weight: bold;
+    }
+
+
+body {
+    padding: 10 0 0 0;
+    background-color:White;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 10px;
+    color: #808080;
+    margin: 0;
+    
+}
+a {
+    color: #000000;
+    font-weight: bold;
+    text-decoration: none;
+    font-family: Arial, Helvetica, sans-serif;
+}
+a:hover {
+    color: #000000;
+    font-weight: bold;
+    text-decoration: underline;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+
+#one_column {
+    background-color:white;
+    text-align: justify;
+    line-height: 1.5em;
+    margin: 0 0 0 0px;
+    padding-right: 1px;
+    padding-left: 7px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-left: 0px solid #cccccc;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #000000;
+    
+}
+#one_column p {
+    padding: 10px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+#one_column h1 {
+    background-color: #808080;
+    border-top: 1px solid #9fbb88;
+    border-left: 1px solid #9fbb88;
+    border-bottom: 1px solid #5d7744;
+    border-right: 1px solid #5d7744;
+    color: #FFFFFF;
+    padding: 5px;
+    font-weight: normal;
+    font-size: 200%;
+
+    font-family: Arial, Helvetica, sans-serif;
+    border-color: #C0C0C0 #808080 #808080 #C0C0C0;
+}
+#one_column h2 {
+    background-color: #808080;
+    border-top: 1px solid #9fbb88;
+    border-left: 1px solid #9fbb88;
+    border-bottom: 1px solid #5d7744;
+    border-right: 1px solid #5d7744;
+    color: #FFFFFF;
+    padding: 5px;
+    font-weight: normal;
+    font-size: 200%;
+
+    font-family: Arial, Helvetica, sans-serif;
+    border-color: #C0C0C0 #808080 #808080 #C0C0C0;
+}
+
+ 
+
+
+
+
+
+
+
+table.sample
+{
+    border: thin solid #000000;
+    width: 100%;
+    border-collapse: separate;
+    font-family: Arial, Helvetica, sans-serif;
+}
+table.sample th
+{
+    border: thin solid #808080;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: small;
+    font-weight: bold;
+    background-color: #808080;
+    color: #FFFFFF;
+    font-style: normal;
+    font-variant: normal;
+    text-align: center;
+}
+table.sample td
+{
+    border: thin solid #000000;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: small;
+    text-align: center;
+}
+
+.newJobList
+{
+ background:transparent;
+  
+}
+
+
+#container {
+    position: relative;
+}
+
+#textArea {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+ font-family: Arial, Helvetica, sans-serif;
+    height: 100%;
+    overflow: hidden;
+    position: absolute;
+    width: 100%;
+}
+
+#textCopy {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+ font-family: Arial, Helvetica, sans-serif;
+    padding: 6px;   /* Same border+padding as text area. */
+ padding-bottom: 1.15em; /* A bit more than one additional line of text. */ 
+    visibility: hidden;
+    width: 100%;
+}
+
+
+
+
+
+#footer {
+	background-color:#CACAAF;
+	border-top: 1px solid #ececcf;
+	border-bottom: 1px solid #a8a88d;
+	width:100%;
+	text-align:right;
+	color:#FFFFFF;
+}
+#footer p {
+	padding:5px;
+	margin:0;
+}
+#footer a {
+	color:#FFFFFF;
+}
+
+
+
+input {
+    background-color: #C0C0C0;
+    border-bottom: 1px solid #9fbb88;
+    border-right: 1px solid #9fbb88;
+    border-top: 1px solid #5d7744;
+    border-left: 1px solid #5d7744;
+    color: #000000;
+    font-family: Arial, Helvetica, sans-serif;
+    border-color: #000000;
+}
+textarea {
+    background-color: #C0C0C0;
+    border-bottom: 1px solid #9fbb88;
+    border-right: 1px solid #9fbb88;
+    border-top: 1px solid #5d7744;
+    border-left: 1px solid #5d7744;
+    color: #000000;
+    font-family: Arial, Helvetica, sans-serif;
+    border-color: #000000;
+    overflow:auto;
+}
+submit
+{
+    background-color: white;
+    border-bottom: 1px solid #9fbb88;
+    border-right: 1px solid #9fbb88;
+    border-top: 1px solid #5d7744;
+    border-left: 1px solid #5d7744;
+    color: #FFFFFF;
+    font-family: Arial, Helvetica, sans-serif;
+    border-color: #808080 #C0C0C0 #C0C0C0 #808080;
+    border-style: outset;
+}
+acronym {
+    font-variant: small-caps;
+    cursor: help;
+    letter-spacing: 2px;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.iframeBody
+
+{
+    
+    
+}
+
+.cpBody
+        {
+            background-color: #DCE4F9;
+            font: normal 11px auto Verdana, Arial;
+            border: 1px gray;               
+            width:450px;           
+            padding: 4px;
+            padding-top: 2px;
+            height:0px;
+          overflow: hidden;
+          
+        }
+        
+        
+.greenRow
+    {    
+          background-color:#008080;
+    }
+.redRow
+    {    
+         background-color:#DC143C;
+    }

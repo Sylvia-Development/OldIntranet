@@ -1,0 +1,324 @@
+﻿<body>
+    <form id="form2" runat="server">
+    
+        <div id="header">
+            <asp:LoginView ID="LoginView1" runat="server">
+            <LoggedInTemplate>
+                <p>Logged in as&nbsp<asp:LoginName ID="LoginName1" runat="server" />  &nbsp&nbsp   &nbsp[&nbsp<asp:LoginStatus ID="LoginStatus" runat="server" />&nbsp]&nbsp&nbsp               </p>
+            </LoggedInTemplate>
+            <AnonymousTemplate>
+                <p>Please login</p>
+            </AnonymousTemplate>
+            </asp:LoginView>
+        
+        </div>
+
+        <div id="subheader">
+	        <p>&nbsp;<img src="Images/logo.png" /></p>
+	        
+            
+        </div>
+        
+        
+    <asp:LoginView ID="LoginView2" runat="server">
+    <LoggedInTemplate>
+        
+
+        <div id="menu">
+	                <p>
+	         <% if (Context.User.IsInRole("Director") || Context.User.IsInRole("Employee") || Context.User.IsInRole("Management"))
+             { %>
+	                 <a href="Default.aspx">Home</a>    
+	                 <a href="quote_admin.aspx">Quote Admin</a>
+	                 <a href="management_dashboard.aspx?pDepartmentId=0">Quote Management</a> 
+	                 <a href="management_dashboard.aspx?pDepartmentId=1">Production Management</a> 
+	                 <a href="management_dashboard.aspx?pDepartmentId=2">Project Management</a> 
+	                 <a href="setup.aspx">Setup</a>
+	                 <a href="profile_admin.aspx">Profile</a> 
+	                </p>
+	                             
+        </div>
+        <div>
+                    <asp:ContentPlaceHolder id="MenuContentPlaceHolder" runat="server">
+                    </asp:ContentPlaceHolder>
+        </div>
+	         <% }
+             else
+             {%>
+                   <div align =center>
+                     <br /><br />YOU HAVE NO ACCESS RIGHTS ASSIGNED TO YOUR PROFILE, PLEASE CONTACT THE SYSTEM ADMINISTRATOR   
+                    </div>
+             <%}%>
+	          
+	          
+	                  
+	                
+	                
+	                
+        
+        
+        
+    </LoggedInTemplate>
+    
+    
+    
+    
+    
+    
+    
+    <AnonymousTemplate>
+    
+    
+    <div align="center">
+    <br /><br />
+        <asp:Login ID="Login2" runat="server" DestinationPageUrl="~/Default.aspx">
+        </asp:Login>
+        
+     </div>  
+     <br /> 
+    <div align="center">  
+    <a href="create_user.aspx">Register</a>
+    </div>
+    
+    </AnonymousTemplate>
+    
+ </asp:LoginView>
+    
+    
+    
+    
+    </form>
+    
+    </body>     
+    
+    
+    
+    >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> No Login>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    
+    <body>
+    <form id="form1" runat="server">
+    
+        <div id="header">
+            
+                <p>Logged in as&nbsp<asp:LoginName ID="LoginName1" runat="server" />  &nbsp&nbsp   &nbsp[&nbsp<asp:LoginStatus ID="LoginStatus" runat="server" />&nbsp]&nbsp&nbsp               </p>
+            
+        
+        </div>
+
+        <div id="subheader">
+	        <p>&nbsp;<img src="Images/logo.png" /></p>
+	        
+            
+        </div>
+        
+  
+        
+
+        <div id="menu">
+	                <p>
+	         
+	                 <a href="Default.aspx">Home</a>    
+	                 <a href="quote_dashboard.aspx">Quote Management</a> 
+	                 <a href="production_dashboard.aspx">Production Management</a> 
+	                 <a href="project_dashboard.aspx">Project Management</a> 
+	                 <a href="setup.aspx">Setup</a>
+	                 <a href="profile_admin.aspx">Profile</a> 
+	                </p>
+	                             
+        </div>
+        <div>
+            <asp:ContentPlaceHolder id="MenuContentPlaceHolder" runat="server">
+            </asp:ContentPlaceHolder>
+        </div>
+     
+    
+
+    
+    
+    
+    
+    </form>
+    
+    </body>
+    
+    
+    
+    
+    
+    >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    
+    
+    
+    
+    <table id="client_info_table">
+<tr>
+    <td>
+        <asp:Label ID="Label1" runat="server" Text="Job Name"></asp:Label>
+    </td>
+    <td colspan="2">
+        <asp:TextBox ID="job_name" runat="server" Width="100%"></asp:TextBox>
+    </td>
+    
+    <td>&nbsp;</td>
+</tr>
+<tr>
+    <td>
+        <asp:Label ID="Label2" runat="server" Text="Client Names"></asp:Label>
+    </td>
+    <td >
+        
+        <asp:TextBox ID="client_names" runat="server" TextMode="MultiLine" Rows="5" 
+            Width="100%" ></asp:TextBox>
+    </td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+</tr>
+<tr>
+    <td>
+        <asp:Label ID="Label3" runat="server" Text="Contact Numbers"></asp:Label>
+    </td>
+    <td >
+        
+        <asp:TextBox ID="contact_numbers" runat="server" TextMode="MultiLine" Rows="5" 
+            Width="100%" ></asp:TextBox>
+    </td>
+    <td>
+        <asp:Label ID="Label4" runat="server" Text="Email Addresses"></asp:Label>
+    </td>
+    <td>
+        
+        <asp:TextBox ID="email" runat="server" TextMode="MultiLine" Rows="5" 
+            Width="100%" ></asp:TextBox>
+    </td>
+</tr>
+<tr>
+    <td>
+        <asp:Label ID="Label5" runat="server" Text="Installation Address"></asp:Label>
+    </td>
+    <td >
+        
+        <asp:TextBox ID="install_address" runat="server" TextMode="MultiLine" Rows="5" 
+            Width="100%" ></asp:TextBox>
+    </td>
+    <td>
+        <asp:Label ID="Label6" runat="server" Text="Other Address"></asp:Label>
+    </td>
+    <td >
+        
+        <asp:TextBox ID="other_address" runat="server" TextMode="MultiLine" Rows="5" 
+            Width="100%" ></asp:TextBox>
+    </td>
+</tr>
+<tr>
+    <td>
+        <asp:Label ID="Label7" runat="server" Text="Additional Notes"></asp:Label>
+    </td>
+    <td colspan="3">
+        
+        <asp:TextBox ID="notes" runat="server" TextMode="MultiLine" Rows="5" 
+            Width="100%" ></asp:TextBox>
+    </td>
+    
+</tr>
+<tr>
+    <td>
+        <asp:Label ID="Label8" runat="server" Text="Geographical Region"></asp:Label>    
+    </td>
+    <td>
+        <asp:DropDownList ID="geographical_list" Width="100%" 
+                                      DataSourceID = "LinqDataSource1" 
+                                      DataValueField = "geographical_id"  
+                                      DataTextField="geographical_name" 
+                                       AppendDataBoundItems="true" 
+                                      AutoPostBack="true"    
+                                      runat="server">
+            <asp:ListItem Value="-1" Text="Unknown"></asp:ListItem>
+        </asp:DropDownList>
+        
+    </td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+</tr>
+<tr>
+    <td>
+        <asp:Label ID="Label9" runat="server" Text="Race"></asp:Label>    
+    </td>
+    <td>
+        <asp:DropDownList ID="race_list" Width="100%" 
+                                        DataSourceID = "LinqDataSource2" 
+                                      DataValueField = "race_id"  
+                                      DataTextField="race_description" 
+                                       AppendDataBoundItems="true" 
+                                      AutoPostBack="true"    
+                                      runat="server">
+            <asp:ListItem Value="-1" Text="Unknown"></asp:ListItem>
+        </asp:DropDownList>
+    </td>
+    <td>&nbsp;</td>
+    <td> 
+        <asp:Button ID="submit" runat="server" Text="Submit" /> </td>
+</tr>
+    
+    
+</table>
+
+
+
+Insetr template
+
+
+job_name:
+            <asp:TextBox ID="job_nameTextBox" runat="server" 
+                Text='<%# Bind("job_name") %>' />
+            <br />
+            names:
+            <asp:TextBox ID="namesTextBox" runat="server" Text='<%# Bind("names") %>' />
+            <br />
+            numbers:
+            <asp:TextBox ID="numbersTextBox" runat="server" Text='<%# Bind("numbers") %>' />
+            <br />
+            emails:
+            <asp:TextBox ID="emailsTextBox" runat="server" Text='<%# Bind("emails") %>' />
+            <br />
+            install_address:
+            <asp:TextBox ID="install_addressTextBox" runat="server" 
+                Text='<%# Bind("install_address") %>' />
+            <br />
+            other_address:
+            <asp:TextBox ID="other_addressTextBox" runat="server" 
+                Text='<%# Bind("other_address") %>' />
+            <br />
+            notes:
+            <asp:TextBox ID="notesTextBox" runat="server" Text='<%# Bind("notes") %>' />
+            <br />
+            geographical_id:
+            <asp:TextBox ID="geographical_idTextBox" runat="server" 
+                Text='<%# Bind("geographical_id") %>' />
+            <br />
+            race_id:
+            <asp:TextBox ID="race_idTextBox" runat="server" Text='<%# Bind("race_id") %>' />
+            <br />
+            
+            <br />
+            <asp:LinkButton ID="InsertButton" runat="server" CausesValidation="True" 
+                CommandName="Insert" Text="Insert" />
+            &nbsp;<asp:LinkButton ID="InsertCancelButton" runat="server" 
+                CausesValidation="False" CommandName="Cancel" Text="Cancel" />
+        </InsertItemTemplate>
+        
+        
+        
+        
+        #left_column a:hover {
+    line-height: 25px;
+    color: #ffffff;
+    text-decoration: none;
+    display: block;
+    background-color: #808080;
+    border-top: 1px solid #c5f397;
+    border-bottom: 1px solid #81b053;
+    padding-left: 5px;
+    font-family: Arial, Helvetica, sans-serif;
+    border-top-color: #C0C0C0;
+    border-bottom-color: #C0C0C0;
+}
